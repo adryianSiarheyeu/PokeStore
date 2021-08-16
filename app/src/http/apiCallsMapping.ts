@@ -1,12 +1,14 @@
 import * as testActions from "../pages/LoginPage/actions";
 import * as testAPi from "../pages/LoginPage/api";
-import { AxiosResponse } from "axios";
+import {AxiosResponse} from "axios";
+
+type RequestFunctionType = (body: any) => Promise<AxiosResponse>;
 
 type ActionRequestMapping = {
-  [key: string]: (body: any) => Promise<AxiosResponse>;
+  [key: string]: RequestFunctionType;
 };
 
-const apiCallsMapping = (actionType: string) => {
+const apiCallsMapping = (actionType: string): RequestFunctionType => {
   const mapping: ActionRequestMapping = {
     [testActions.LOGIN_REQUEST.type]: testAPi.signIn,
   };

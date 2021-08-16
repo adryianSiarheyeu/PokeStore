@@ -1,9 +1,10 @@
-import { createReducer } from "deox";
+import {createReducer} from "deox";
+
 import * as actions from "../actions";
-import { ILoginResponse } from "../api/loginResponse.dto";
+import {LoginResponseDto} from "../dto/login.dtos";
 
 interface ILoginState {
-  userInfo: ILoginResponse;
+  userInfo: LoginResponseDto;
   isLoading: boolean;
   errors: null | string;
 }
@@ -15,8 +16,6 @@ const defaultState: ILoginState = {
     lastName: "",
     email: "",
     phone: "",
-    gender: "",
-    roles: ["customer"],
   },
   isLoading: false,
   errors: null,

@@ -1,34 +1,33 @@
-import { AxiosResponse } from "axios"
-import { POSTFIXES } from "../../constants/actionPostfixes"
-import { SendRequestAction } from "../../types"
+import {POSTFIXES} from "../../constants/actionPostfixes";
+import {SendRequestAction} from "../../types";
 
-const { REQUEST_POSTFIX } = POSTFIXES
+const { REQUEST_POSTFIX } = POSTFIXES;
 
 export interface CustomPayload {
-  response: any
-  actionPayload: any
+  response: any;
+  actionPayload: any;
 }
 
 export interface CustomAction {
-  type: string
-  payload: CustomPayload
+  type: string;
+  payload: CustomPayload;
 }
 
 const createActionWithPostfix = (
   initialAction: SendRequestAction,
-  response: AxiosResponse,
+  response: any,
   postfix: POSTFIXES
 ): CustomAction => {
   const newActionType: string =
-    initialAction.type.slice(0, initialAction.type.length - REQUEST_POSTFIX.length) + postfix
+    initialAction.type.slice(0, initialAction.type.length - REQUEST_POSTFIX.length) + postfix;
 
   return {
     type: newActionType,
     payload: {
-      response: response.data,
+      response,
       actionPayload: initialAction.payload,
     },
-  }
-}
+  };
+};
 
-export default createActionWithPostfix
+export default createActionWithPostfix;

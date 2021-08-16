@@ -1,36 +1,47 @@
-import { call, takeEvery, put } from "redux-saga/effects"
+import {call, put, takeEvery} from "redux-saga/effects";
+import axios, {AxiosError, AxiosResponse} from "axios";
 
-import { AnyAction } from "deox"
-import { SendRequestAction } from "../../types"
-import { AxiosResponse } from "axios"
-import apiCallsMapping from "../../http/apiCallsMapping"
-import createActionWithPostfix from "./actionPostfixCreator"
-import { POSTFIXES } from "../../constants/actionPostfixes"
+import {SendRequestAction} from "../../types";
+import apiCallsMapping from "../../http/apiCallsMapping";
+import createActionWithPostfix from "./actionPostfixCreator";
+import {POSTFIXES} from "../../constants/actionPostfixes";
 
 function* sendRequest(action: SendRequestAction) {
   try {
-    const foundApiCall = apiCallsMapping(action.type)
+    const foundApiCall = apiCallsMapping(action.type);
 
-    const response: AxiosResponse = yield call(foundApiCall, action.payload)
+    const response: AxiosResponse = yield call(foundApiCall, action.payload);
 
     const generatedSuccessAction = createActionWithPostfix(
       action,
-      response,
+      response.data,
       POSTFIXES.SUCCESS_POSTFIX
-    )
+    );
 
-    yield put(generatedSuccessAction)
+    yield put(generatedSuccessAction);
   } catch (error) {
-    yield put(createActionWithPostfix(action, error.message, POSTFIXES.FAIL_POSTFIX))
+    if (!axios.isAxiosError(error)) {
+      throw new Error(error);
+    }
+
+    const err = error as AxiosError;
+
+    const generatedFailAction = createActionWithPostfix(
+      action,
+      err.response?.data.message,
+      POSTFIXES.FAIL_POSTFIX
+    );
+
+    yield put(generatedFailAction);
   }
 }
 
-const isApiCallAction = (action: AnyAction): boolean => {
-  return action.type.endsWith(POSTFIXES.REQUEST_POSTFIX)
-}
+const isApiCallAction = (action: SendRequestAction): boolean => {
+  return action.type.endsWith(POSTFIXES.REQUEST_POSTFIX);
+};
 
 function* watchRequest() {
-  yield takeEvery(isApiCallAction, sendRequest)
+  yield takeEvery(isApiCallAction, sendRequest);
 }
 
-export default watchRequest
+export default watchRequest;

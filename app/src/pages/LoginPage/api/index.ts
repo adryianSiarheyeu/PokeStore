@@ -1,11 +1,7 @@
-import { AxiosResponse } from "axios";
+import {AxiosResponse} from "axios";
 import api from "../../../http/config";
-import { ILoginResponse } from "./loginResponse.dto";
 
-export interface ISignInDTO {
-  email: string;
-  password: string;
-}
+import {LoginResponseDto, SignInDto} from "../dto/login.dtos";
 
-export const signIn = (body: ISignInDTO): Promise<AxiosResponse<ILoginResponse>> =>
+export const signIn = (body: SignInDto): Promise<AxiosResponse<LoginResponseDto>> =>
   api.post("auth/signIn", body);

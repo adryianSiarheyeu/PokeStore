@@ -1,15 +1,14 @@
-import { createActionCreator } from "deox";
-import { ISignInDTO } from "../api";
-import { CustomPayload } from "../../../helpers/requests/actionPostfixCreator";
-import { ILoginResponse } from "../api/loginResponse.dto";
+import {createActionCreator} from "deox";
+import {CustomPayload} from "../../../helpers/requests/actionPostfixCreator";
+import {LoginResponseDto, SignInDto} from "../dto/login.dtos";
 
 interface LoginResponsePayload extends CustomPayload {
-  response: ILoginResponse;
+  response: LoginResponseDto;
 }
 
 export const LOGIN_REQUEST = createActionCreator(
   "LOGIN_REQUEST",
-  (resolve) => (payload: ISignInDTO) => resolve(payload)
+  (resolve) => (payload: SignInDto) => resolve(payload)
 );
 export const LOGIN_SUCCESS = createActionCreator(
   "LOGIN_SUCCESS",

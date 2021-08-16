@@ -1,13 +1,13 @@
-type LocalStorageResult = string | null;
+type GetUserTokenResult = string | null;
 
 export class LocalStorageService {
-  public static readonly USER_TOKEN_KEY: string = "token";
+  private static readonly USER_TOKEN_KEY: string = "token";
 
-  public static getUserToken(): LocalStorageResult {
-    return localStorage.getItem(LocalStorageService.USER_TOKEN_KEY);
+  public static getUserToken(): GetUserTokenResult {
+    return localStorage.getItem(this.USER_TOKEN_KEY);
   }
 
   public static saveUserToken(token: string): void {
-    localStorage.setItem(LocalStorageService.USER_TOKEN_KEY, token);
+    localStorage.setItem(this.USER_TOKEN_KEY, token);
   }
 }
