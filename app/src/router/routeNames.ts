@@ -1,8 +1,9 @@
-type RoutesType = {
-  [key: string]: string;
-};
+interface IRoutes {
+  HOME: string;
+  LOGIN: string;
+}
 
-export const ROUTES: RoutesType = {
+export const ROUTES: IRoutes = {
   HOME: "/",
   LOGIN: "/login",
 };

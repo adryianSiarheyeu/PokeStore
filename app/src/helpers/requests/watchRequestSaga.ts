@@ -1,5 +1,5 @@
 import {call, put, takeEvery} from "redux-saga/effects";
-import axios, {AxiosError, AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 
 import {SendRequestAction} from "../../types";
 import apiCallsMapping from "../../http/apiCallsMapping";
@@ -11,7 +11,7 @@ function* sendRequest(action: SendRequestAction) {
     const foundApiCall = apiCallsMapping(action.type);
 
     const response: AxiosResponse = yield call(foundApiCall, action.payload);
-
+    console.log(response);
     const generatedSuccessAction = createActionWithPostfix(
       action,
       response.data,
@@ -20,9 +20,9 @@ function* sendRequest(action: SendRequestAction) {
 
     yield put(generatedSuccessAction);
   } catch (error) {
-    if (!axios.isAxiosError(error)) {
-      throw new Error(error);
-    }
+    // if (!axios.isAxiosError(error)) {
+    //   throw new Error(error);
+    // }
 
     const err = error as AxiosError;
 

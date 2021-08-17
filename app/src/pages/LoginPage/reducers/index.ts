@@ -6,6 +6,7 @@ import {LoginResponseDto} from "../dto/login.dtos";
 interface ILoginState {
   userInfo: LoginResponseDto;
   isLoading: boolean;
+  isAuth: boolean;
   errors: null | string;
 }
 
@@ -17,6 +18,7 @@ const defaultState: ILoginState = {
     email: "",
     phone: "",
   },
+  isAuth: false,
   isLoading: false,
   errors: null,
 };
@@ -31,6 +33,7 @@ const loginReducer = createReducer(defaultState, (handleAction) => [
     return {
       ...state,
       userInfo: payload.response,
+      isAuth: true,
       isLoading: false,
       errors: null,
     };
@@ -39,6 +42,7 @@ const loginReducer = createReducer(defaultState, (handleAction) => [
     return {
       ...state,
       isLoading: false,
+      isAuth: false,
       errors: payload.response,
     };
   }),

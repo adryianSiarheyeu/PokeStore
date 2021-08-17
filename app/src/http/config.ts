@@ -39,7 +39,8 @@ api.interceptors.response.use(
   },
   (err: AxiosError) => {
     console.log(err);
-    return err;
+
+    throw err;
   }
 );
 

@@ -1,10 +1,11 @@
-import {ChangeEvent, FC, MouseEvent} from "react";
+import {ChangeEvent, FC, FormEvent} from "react";
 import {SignInDto} from "../../dto/login.dtos";
+import TextField from "../../../../commonComponents/Inputs/TextField";
 
 interface LoginFormProps {
   formValues: SignInDto;
   onFormChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: MouseEvent) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
   error: string;
 }
@@ -21,16 +22,25 @@ const LoginForm: FC<LoginFormProps> = ({
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <>
-          <input type="text" name="email" value={formValues.email} onChange={onFormChange} />
-          <input
-            type="password"
-            name="password"
-            value={formValues.password}
-            onChange={onFormChange}
-          />
-          <button onClick={handleSubmit}>Click</button>
-        </>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              value={formValues.email}
+              name="email"
+              onChange={onFormChange}
+              type="email"
+              placeholder="Your Email"
+            />
+            <TextField
+              value={formValues.password}
+              name="password"
+              onChange={onFormChange}
+              type="password"
+              placeholder="Your Password"
+            />
+            <button type="submit">Click</button>
+          </form>
+        </div>
       )}
       {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
