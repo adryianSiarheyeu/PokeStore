@@ -3,6 +3,6 @@
   "tabWidth": 2,
   "semi": true,
   "printWidth": 100,
-  "singleQuote": false,
+  "singleQuote": true,
   "prettier.semi": true
 }
